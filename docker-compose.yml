@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  meshcore-web:
+    build: .
+    image: meshcore-web:latest
+    ports:
+      - "7171:80"
+    environment:
+      - TZ=America/Chicago
+      # - MESHCORE_VERSION=v1.43.0  # Pin to specific version (optional)
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
