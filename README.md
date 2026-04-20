@@ -2,7 +2,7 @@
 
 Self-hosted Docker container for the [MeshCore](https://meshcore.nz) web application.
 
-Automatically downloads the latest MeshCore web release on startup and checks for updates hourly.
+Automatically downloads the latest MeshCore web release on startup and checks for updates daily.
 
 ## Quick Start
 
@@ -38,7 +38,7 @@ Bluetooth requires a secure context (HTTPS) in the browser. You must put this co
 | `TZ` | `UTC` | Timezone |
 | `MESHCORE_BASE_URL` | `https://files.liamcottle.net/MeshCore` | Base URL for releases |
 | `MESHCORE_VERSION` | (latest) | Pin to a specific version e.g. `v1.43.0`. If set, auto-updates are disabled. |
-| `UPDATE_INTERVAL` | `3600` | How often to check for updates in seconds (default: 1 hour) |
+| `UPDATE_INTERVAL` | `86400` | How often to check for updates in seconds (default: 24 hours) |
 
 ## Auto-Updates
 
@@ -50,4 +50,4 @@ To disable auto-updates, pin to a specific version using `MESHCORE_VERSION`.
 
 Set container port `80` to your desired host port (e.g. `7171`).
 
-No volume mapping required — the app downloads fresh on each container start.
+Map `/app/data` to a persistent path (e.g. `/mnt/user/appdata/meshcore-selfhosted`) to cache downloads. On restart the container will use the cached version instantly and only download again when a new release is available. If no cache exists or the server is unreachable, it falls back gracefully.
