@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Maintainer>
+<CommunityApplications>
   <Profile>
-    <n>lalexfrank</n>
-    <ProfileURL>https://github.com/lalexfrank</ProfileURL>
-    <Overview>MeshCore self-hosted container templates for Unraid.</Overview>
-    <Icon>https://raw.githubusercontent.com/lalexfrank/meshcore-selfhosted/main/icon.png</Icon>
+    MeshCore Self-Hosted container templates for Unraid. Self-host the official MeshCore web client with automatic updates. Connect to your MeshCore companion radio via USB or Bluetooth.
   </Profile>
-</Maintainer>
+  <Icon>https://raw.githubusercontent.com/lalexfrank/meshcore-selfhosted/main/icon.png</Icon>
+  <WebPage>https://github.com/lalexfrank/meshcore-selfhosted</WebPage>
+  <Forum>https://forums.unraid.net/topic/198349-support-meshcore-self-hosted-self-hosted-meshcore-web-application/</Forum>
+</CommunityApplications>
