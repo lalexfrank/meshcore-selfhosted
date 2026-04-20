@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Maintainer>
   <Profile>
+    <n>lalexfrank</n>
     <ProfileURL>https://github.com/lalexfrank</ProfileURL>
-    <Name>lalexfrank</Name>
     <Overview>MeshCore self-hosted container templates for Unraid.</Overview>
+    <Icon>https://raw.githubusercontent.com/lalexfrank/meshcore-selfhosted/main/icon.png</Icon>
   </Profile>
 </Maintainer>
