@@ -24,6 +24,11 @@ Bluetooth requires a secure context (HTTPS) in the browser. You must put this co
 - **Nginx Proxy Manager** — GUI-based reverse proxy, available in Unraid Community Applications.
 - **Caddy** — Minimal config, auto-handles Let's Encrypt certificates.
 
+#### Browser Compatibility
+- **Chrome / Edge** — Works out of the box.
+- **Brave** — Web Bluetooth is disabled by default. Go to `brave://flags/#enable-web-bluetooth`, set to Enabled, and restart.
+- **Safari / Firefox** — Not supported. Web Bluetooth is not available in these browsers.
+
 > **Note:** Your MeshCore companion radio must be flashed with BLE companion firmware to use Bluetooth. USB serial and BLE are separate firmware builds — you can only use one at a time.
 
 ## Environment Variables
