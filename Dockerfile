@@ -1,5 +1,11 @@
 FROM alpine:3.19
 
+LABEL org.opencontainers.image.title="MeshCore Self-Hosted" \
+      org.opencontainers.image.description="Self-hosted MeshCore web application with auto-updates" \
+      org.opencontainers.image.url="https://github.com/lalexfrank/meshcore-selfhosted" \
+      org.opencontainers.image.source="https://github.com/lalexfrank/meshcore-selfhosted" \
+      net.unraid.docker.webui="http://[IP]:[PORT:80]/" \
+      net.unraid.docker.icon="https://raw.githubusercontent.com/lalexfrank/meshcore-selfhosted/main/icon.png"
 RUN apk add --no-cache nginx curl unzip && \
     mkdir -p /app/web /run/nginx
 
