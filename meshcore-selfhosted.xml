@@ -7,7 +7,7 @@
   <MyIP/>
   <Shell>sh</Shell>
   <Privileged>false</Privileged>
-  <Support>https://github.com/lalexfrank/meshcore-selfhosted/issues</Support>
+  <Support>https://forums.unraid.net/topic/198349-support-meshcore-self-hosted-self-hosted-meshcore-web-application/</Support>
   <Project>https://meshcore.nz</Project>
   <Overview>Self-hosted MeshCore web application with automatic updates. Hosts the official MeshCore web client locally, allowing you to connect to your MeshCore companion radio via USB or Bluetooth. Automatically checks for and downloads new MeshCore releases hourly. USB connections work over HTTP with no extra setup. Bluetooth requires HTTPS — use a reverse proxy such as Cloudflare Tunnel or Nginx Proxy Manager in front of this container. Note: your MeshCore device must be flashed with BLE companion firmware to use Bluetooth.</Overview>
   <Category>Tools: Network:Management</Category>
