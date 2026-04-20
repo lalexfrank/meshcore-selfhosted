@@ -9,7 +9,7 @@
   <Privileged>false</Privileged>
   <Support>https://forums.unraid.net/topic/198349-support-meshcore-self-hosted-self-hosted-meshcore-web-application/</Support>
   <Project>https://meshcore.nz</Project>
-  <Overview>Self-hosted MeshCore web application with automatic updates. Hosts the official MeshCore web client locally, allowing you to connect to your MeshCore companion radio via USB or Bluetooth. Automatically checks for and downloads new MeshCore releases hourly. USB connections work over HTTP with no extra setup. Bluetooth requires HTTPS — use a reverse proxy such as Cloudflare Tunnel or Nginx Proxy Manager in front of this container. Note: your MeshCore device must be flashed with BLE companion firmware to use Bluetooth.</Overview>
+  <Overview>Self-hosted MeshCore web application with automatic updates. Hosts the official MeshCore web client locally, allowing you to connect to your MeshCore companion radio via USB or Bluetooth. Automatically checks for and downloads new MeshCore releases daily. USB connections work over HTTP with no extra setup. Bluetooth requires HTTPS — use a reverse proxy such as Cloudflare Tunnel or Nginx Proxy Manager in front of this container. Note: your MeshCore device must be flashed with BLE companion firmware to use Bluetooth.</Overview>
   <Category>Tools: Network:Management</Category>
   <WebUI>http://[IP]:[PORT:80]/</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/lalexfrank/meshcore-selfhosted/main/meshcore-selfhosted.xml</TemplateURL>
@@ -19,7 +19,8 @@
   <Requires/>
   <Config Name="WebUI Port" Target="80" Default="7171" Mode="tcp" Description="Port to access the MeshCore web interface" Type="Port" Display="always" Required="true" Mask="false">7171</Config>
   <Config Name="Timezone" Target="TZ" Default="America/Chicago" Mode="" Description="Timezone for container logs e.g. America/Chicago, America/New_York, Europe/London" Type="Variable" Display="always" Required="false" Mask="false">America/Chicago</Config>
-  <Config Name="Update Interval" Target="UPDATE_INTERVAL" Default="3600" Mode="" Description="How often to check for MeshCore updates in seconds. Default is 3600 (1 hour)." Type="Variable" Display="always" Required="false" Mask="false">3600</Config>
+  <Config Name="Update Interval" Target="UPDATE_INTERVAL" Default="86400" Mode="" Description="How often to check for MeshCore updates in seconds. Default is 86400 (24 hours)." Type="Variable" Display="always" Required="false" Mask="false">86400</Config>
   <Config Name="Pin Version" Target="MESHCORE_VERSION" Default="" Mode="" Description="Pin to a specific MeshCore version e.g. v1.43.0. Leave blank to always use the latest version. When set, auto-updates are disabled." Type="Variable" Display="always" Required="false" Mask="false"></Config>
   <Config Name="Base URL" Target="MESHCORE_BASE_URL" Default="https://files.liamcottle.net/MeshCore" Mode="" Description="Base URL for MeshCore releases. Do not change unless you know what you are doing." Type="Variable" Display="advanced" Required="false" Mask="false">https://files.liamcottle.net/MeshCore</Config>
+  <Config Name="App Data" Target="/app/data" Default="/mnt/user/appdata/meshcore-selfhosted" Mode="rw" Description="Persistent storage for cached downloads and version tracking." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/meshcore-selfhosted</Config>
 </Container>
