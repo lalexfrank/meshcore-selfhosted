@@ -2,8 +2,12 @@
 set -e
 
 MESHCORE_BASE_URL="${MESHCORE_BASE_URL:-https://files.liamcottle.net/MeshCore}"
-UPDATE_INTERVAL="${UPDATE_INTERVAL:-3600}" # seconds, default 1 hour
-CURRENT_VERSION_FILE="/app/current_version"
+UPDATE_INTERVAL="${UPDATE_INTERVAL:-86400}" # seconds, default 24 hours
+CURRENT_VERSION_FILE="/app/data/current_version"
+CACHE_DIR="/app/data/cache"
+
+# Ensure data directories exist
+mkdir -p "$CACHE_DIR"
 
 get_latest_version() {
     curl -sf "$MESHCORE_BASE_URL/" | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+/' | sort -V | tail -1 | tr -d '/'
@@ -11,6 +15,17 @@ get_latest_version() {
 
 download_version() {
     VERSION="$1"
+
+    # Check if we already have this version cached
+    if [ -d "$CACHE_DIR/$VERSION" ] && [ -f "$CACHE_DIR/$VERSION/index.html" ]; then
+        echo "[MESHCORE] Version $VERSION found in cache, skipping download"
+        rm -rf /app/web/*
+        cp -r "$CACHE_DIR/$VERSION"/. /app/web/
+        echo "$VERSION" > "$CURRENT_VERSION_FILE"
+        echo "[MESHCORE] Version $VERSION loaded from cache"
+        return 0
+    fi
+
     echo "[MESHCORE] Downloading version $VERSION..."
 
     ZIP_FILENAME=$(curl -sf "$MESHCORE_BASE_URL/$VERSION/" | grep -oE '[^"]+\-web\.zip' | head -1)
@@ -36,9 +51,23 @@ download_version() {
     fi
 
     EXTRACT_DIR=$(dirname "$INDEX")
+
+    # Cache this version
+    rm -rf "$CACHE_DIR/$VERSION"
+    mkdir -p "$CACHE_DIR/$VERSION"
+    cp -r "$EXTRACT_DIR"/. "$CACHE_DIR/$VERSION"/
+
+    # Deploy to web root
     rm -rf /app/web/*
-    cp -r "$EXTRACT_DIR"/. /app/web/
+    cp -r "$CACHE_DIR/$VERSION"/. /app/web/
     rm -rf /tmp/meshcore-extracted
+
+    # Clean up old cached versions (keep only current)
+    for dir in "$CACHE_DIR"/v*; do
+        if [ -d "$dir" ] && [ "$(basename "$dir")" != "$VERSION" ]; then
+            rm -rf "$dir"
+        fi
+    done
 
     echo "$VERSION" > "$CURRENT_VERSION_FILE"
     echo "[MESHCORE] Version $VERSION installed successfully"
@@ -83,8 +112,14 @@ else
     echo "[STARTUP] Detecting latest version..."
     TARGET_VERSION=$(get_latest_version)
     if [ -z "$TARGET_VERSION" ]; then
-        echo "[STARTUP] ERROR: Could not detect latest version"
-        exit 1
+        # If we can't reach the server but have a cached version, use it
+        if [ -f "$CURRENT_VERSION_FILE" ]; then
+            TARGET_VERSION=$(cat "$CURRENT_VERSION_FILE")
+            echo "[STARTUP] Cannot reach server, using cached version: $TARGET_VERSION"
+        else
+            echo "[STARTUP] ERROR: Could not detect latest version and no cache available"
+            exit 1
+        fi
     fi
 fi
 
