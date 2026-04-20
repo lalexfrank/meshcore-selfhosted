@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>MeshCore-Self-Hosted</Name>
+  <Repository>ghcr.io/lalexfrank/meshcore-selfhosted:latest</Repository>
+  <Registry>https://github.com/lalexfrank/meshcore-selfhosted</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/lalexfrank/meshcore-selfhosted/issues</Support>
+  <Project>https://meshcore.nz</Project>
+  <Overview>Self-hosted MeshCore web application with automatic updates. Hosts the official MeshCore web client locally, allowing you to connect to your MeshCore companion radio via Bluetooth or USB. Automatically checks for and downloads new versions hourly.</Overview>
+  <Category>Tools: Network:Management</Category>
+  <WebUI>http://[IP]:[PORT:80]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/lalexfrank/meshcore-selfhosted/main/meshcore-selfhosted.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/lalexfrank/meshcore-selfhosted/main/icon.png</Icon>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires/>
+  <Config Name="WebUI Port" Target="80" Default="7171" Mode="tcp" Description="Port to access the MeshCore web interface" Type="Port" Display="always" Required="true" Mask="false">7171</Config>
+  <Config Name="Timezone" Target="TZ" Default="America/Chicago" Mode="" Description="Timezone for container logs e.g. America/Chicago, America/New_York, Europe/London" Type="Variable" Display="always" Required="false" Mask="false">America/Chicago</Config>
+  <Config Name="Update Interval" Target="UPDATE_INTERVAL" Default="3600" Mode="" Description="How often to check for MeshCore updates in seconds. Default is 3600 (1 hour)." Type="Variable" Display="always" Required="false" Mask="false">3600</Config>
+  <Config Name="Pin Version" Target="MESHCORE_VERSION" Default="" Mode="" Description="Pin to a specific MeshCore version e.g. v1.43.0. Leave blank to always use the latest version. When set, auto-updates are disabled." Type="Variable" Display="always" Required="false" Mask="false"></Config>
+  <Config Name="Base URL" Target="MESHCORE_BASE_URL" Default="https://files.liamcottle.net/MeshCore" Mode="" Description="Base URL for MeshCore releases. Do not change unless you know what you are doing." Type="Variable" Display="advanced" Required="false" Mask="false">https://files.liamcottle.net/MeshCore</Config>
+</Container>
