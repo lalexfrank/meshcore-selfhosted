@@ -16,10 +16,6 @@
   <Icon>https://raw.githubusercontent.com/lalexfrank/meshcore-selfhosted/main/icon.png</Icon>
   <ExtraParams/>
   <PostArgs/>
-  <CPUset/>
-  <DateInstalled/>
-  <DonateText/>
-  <DonateLink/>
   <Requires/>
   <Config Name="WebUI Port" Target="80" Default="7171" Mode="tcp" Description="Port to access the MeshCore web interface" Type="Port" Display="always" Required="true" Mask="false">7171</Config>
   <Config Name="Timezone" Target="TZ" Default="America/Chicago" Mode="" Description="Timezone for container logs e.g. America/Chicago, America/New_York, Europe/London" Type="Variable" Display="always" Required="false" Mask="false">America/Chicago</Config>
