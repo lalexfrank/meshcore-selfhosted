@@ -20,37 +20,33 @@ fi
 
 echo "[STARTUP] Using version: $MESHCORE_VERSION"
 
-# Find the web zip for this version
-ZIP_URL=$(curl -sf "$MESHCORE_BASE_URL/$MESHCORE_VERSION/" | grep -oE 'href="[^"]*-web\.zip"' | grep -oE '"[^"]*"' | tr -d '"' | head -1)
+# Find the web zip filename for this version
+ZIP_FILENAME=$(curl -sf "$MESHCORE_BASE_URL/$MESHCORE_VERSION/" | grep -oE '[^"]+\-web\.zip' | head -1)
 
-if [ -z "$ZIP_URL" ]; then
+if [ -z "$ZIP_FILENAME" ]; then
     echo "[STARTUP] ERROR: Could not find web zip for version $MESHCORE_VERSION"
     exit 1
 fi
 
-# Handle relative vs absolute URLs
-case "$ZIP_URL" in
-    http*) FULL_ZIP_URL="$ZIP_URL" ;;
-    /*) FULL_ZIP_URL="https://files.liamcottle.net$ZIP_URL" ;;
-    *) FULL_ZIP_URL="$MESHCORE_BASE_URL/$MESHCORE_VERSION/$ZIP_URL" ;;
-esac
+FULL_ZIP_URL="$MESHCORE_BASE_URL/$MESHCORE_VERSION/$ZIP_FILENAME"
 
 echo "[STARTUP] Downloading: $FULL_ZIP_URL"
 curl -L -o /tmp/meshcore-web.zip "$FULL_ZIP_URL"
 
 echo "[STARTUP] Extracting..."
 rm -rf /app/web/*
-unzip -q /tmp/meshcore-web.zip -d /app/web/
+unzip -q /tmp/meshcore-web.zip -d /tmp/meshcore-extracted/
 rm /tmp/meshcore-web.zip
 
-# Some zips extract into a subdirectory - flatten if needed
-if [ ! -f /app/web/index.html ]; then
-    SUBDIR=$(ls /app/web/ | head -1)
-    if [ -f "/app/web/$SUBDIR/index.html" ]; then
-        mv /app/web/$SUBDIR/* /app/web/
-        rmdir /app/web/$SUBDIR
-    fi
+# Find where index.html ended up and move everything to /app/web
+INDEX=$(find /tmp/meshcore-extracted -name "index.html" | head -1)
+if [ -z "$INDEX" ]; then
+    echo "[STARTUP] ERROR: No index.html found in zip"
+    exit 1
 fi
+EXTRACT_DIR=$(dirname "$INDEX")
+cp -r "$EXTRACT_DIR"/. /app/web/
+rm -rf /tmp/meshcore-extracted
 
 echo "[STARTUP] MeshCore $MESHCORE_VERSION ready"
 echo "[STARTUP] Starting nginx..."
