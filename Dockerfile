@@ -6,6 +6,7 @@ LABEL org.opencontainers.image.title="MeshCore Self-Hosted" \
       org.opencontainers.image.source="https://github.com/lalexfrank/meshcore-selfhosted" \
       net.unraid.docker.webui="http://[IP]:[PORT:80]/" \
       net.unraid.docker.icon="https://raw.githubusercontent.com/lalexfrank/meshcore-selfhosted/main/icon.png"
+
 RUN apk add --no-cache nginx curl unzip && \
     mkdir -p /app/web /run/nginx
 
